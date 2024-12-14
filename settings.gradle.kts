@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Taskly"
 include(":app")
+include(":domain")

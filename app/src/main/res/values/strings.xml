@@ -4,4 +4,6 @@
     <string name="title">Title</string>
     <string name="add_task">Add Task</string>
     <string name="back">Back</string>
+    <string name="mark_completed">Mark Completed</string>
+    <string name="mark_todo">Mark ToDo</string>
 </resources>

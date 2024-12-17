@@ -21,25 +21,26 @@ import com.z3r08ug.taskly.R
 @Composable
 fun TaskItem(
     task: Task,
-    onTaskClicked: () -> Unit,
-    onToggleCompletion: () -> Unit
+    isSelected: Boolean,
+    onSelectionChanged: (Int) -> Unit,
+    onTaskClicked: (Int) -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onTaskClicked() }
+            .clickable { onTaskClicked(task.id) }
             .padding(dimensionResource(R.dimen.padding_m)),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
-            checked = task.isCompleted,
-            onCheckedChange = { onToggleCompletion() }
+            checked = isSelected,
+            onCheckedChange = { onSelectionChanged(task.id) }
         )
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.padding_s)))
         Column {
             Text(
                 text = task.title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.bodyLarge,
                 textDecoration = if (task.isCompleted) TextDecoration.LineThrough else TextDecoration.None
             )
             if (task.description.isNotEmpty()) {

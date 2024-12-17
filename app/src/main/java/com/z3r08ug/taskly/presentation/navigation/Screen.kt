@@ -14,8 +14,8 @@ sealed class Screen(
         title = "Add Task",
     )
 
-    data object TaskDetails : Screen(
-        route = "task_details/{taskId}",
-        title = "Task Details",
+    data object EditTask : Screen(
+        route = "edit_task/{taskId}",
+        title = "Edit Task",
     )
 }

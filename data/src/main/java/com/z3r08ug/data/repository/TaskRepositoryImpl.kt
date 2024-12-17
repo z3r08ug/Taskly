@@ -55,4 +55,15 @@ class TaskRepositoryImpl @Inject constructor(
             )
         )
     }
+
+    override suspend fun getTaskById(id: Int): Task? {
+        return taskDao.getTaskById(id)?.let { entity ->
+            Task(
+                id = entity.id,
+                title = entity.title,
+                description = entity.description,
+                isCompleted = entity.isCompleted
+            )
+        }
+    }
 }

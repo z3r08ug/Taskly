@@ -2,10 +2,12 @@ package com.z3r08ug.data.di
 
 import com.z3r08ug.data.usecase.AddTaskUseCaseImpl
 import com.z3r08ug.data.usecase.DeleteTaskUseCaseImpl
+import com.z3r08ug.data.usecase.GetTaskByIdUseCaseImpl
 import com.z3r08ug.data.usecase.GetTasksUseCaseImpl
 import com.z3r08ug.data.usecase.UpdateTaskUseCaseImpl
 import com.z3r08ug.domain.usecase.AddTaskUseCase
 import com.z3r08ug.domain.usecase.DeleteTaskUseCase
+import com.z3r08ug.domain.usecase.GetTaskByIdUseCase
 import com.z3r08ug.domain.usecase.GetTasksUseCase
 import com.z3r08ug.domain.usecase.UpdateTaskUseCase
 import dagger.Binds
@@ -27,4 +29,7 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun bindUpdateTaskUseCase(updateTaskUseCaseImpl: UpdateTaskUseCaseImpl): UpdateTaskUseCase
+
+    @Binds
+    abstract fun bindGetTaskByIdUseCase(getTaskByIdUseCaseImpl: GetTaskByIdUseCaseImpl): GetTaskByIdUseCase
 }

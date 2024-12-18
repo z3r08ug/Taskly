@@ -1,5 +1,10 @@
 package com.z3r08ug.taskly.presentation.features.tasks
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -109,13 +114,19 @@ fun TasksScreen(
                 contentPadding = padding,
                 modifier = Modifier.weight(1f)
             ) {
-                items(uiState.tasks) { task ->
+                items(uiState.tasks, key = { it.id }) { task ->
+                    AnimatedVisibility(
+                        visible = true,
+                        enter = expandVertically() + fadeIn(),
+                        exit = shrinkVertically() + fadeOut()
+                    ) {
                     TaskItem(
                         task = task,
                         isSelected = task.id in uiState.selectedTaskIds,
                         onSelectionChanged = viewModel::toggleTaskSelection,
-                        onTaskClicked = onTaskClicked
+                        onTaskClicked = onTaskClicked,
                     )
+                        }
                 }
             }
 

@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -133,7 +134,8 @@ fun TasksScreen(
             // Action Buttons
             if (uiState.selectedTaskIds.isNotEmpty()) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(bottom = dimensionResource(R.dimen.padding_xxxxl)),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(onClick = { viewModel.markSelectedTasksAsCompleted(true) }) {

@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.z3r08ug.taskly.presentation.features.addtask.AddTaskScreen
 import com.z3r08ug.taskly.presentation.features.edittask.EditTaskScreen
 import com.z3r08ug.taskly.presentation.features.tasks.TasksScreen
+import com.z3r08ug.taskly.presentation.util.putTask
 
 @Composable
 fun AppNavigation() {
@@ -23,6 +24,7 @@ fun AppNavigation() {
     ) {
         composable(Screen.Tasks.route) {
             TasksScreen(
+                navController = navController,
                 onTaskClicked = { taskId ->
                     navController.navigate(Screen.EditTask.route.replace("{taskId}", taskId.toString()))
                 },
@@ -42,7 +44,10 @@ fun AppNavigation() {
             val taskId = backStackEntry.arguments?.getString("taskId")
             EditTaskScreen(
                 taskId = taskId?.toInt() ?: -1,
-                onNavigateBack = {
+                onNavigateBack = { deletedTask ->
+                    navController.previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.putTask("deleted_task", deletedTask)
                     navController.popBackStack()
                 }
             )

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.z3r08ug.domain.usecase.GetTaskByIdUseCase
 import com.z3r08ug.domain.usecase.UpdateTaskUseCase
 import com.z3r08ug.domain.model.Task
+import com.z3r08ug.domain.usecase.DeleteTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,16 +16,19 @@ import javax.inject.Inject
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EditTaskUiState())
     val uiState: StateFlow<EditTaskUiState> = _uiState.asStateFlow()
+    private var currentTask: Task? = null // Hold the loaded task for reference
 
     fun loadTask(taskId: Int) {
         viewModelScope.launch {
             val task = getTaskByIdUseCase(taskId)
             if (task != null) {
+                currentTask = task // Update the reference
                 _uiState.value = _uiState.value.copy(
                     title = task.title,
                     description = task.description,
@@ -60,6 +64,15 @@ class EditTaskViewModel @Inject constructor(
             )
             updateTaskUseCase(updatedTask)
             onTaskSaved()
+        }
+    }
+
+    fun deleteTask(onTaskDeleted: (Task) -> Unit) {
+        viewModelScope.launch {
+            currentTask?.let { task ->
+                deleteTaskUseCase.invoke(task) // Remove from database
+                onTaskDeleted(task) // Pass deleted task back
+            }
         }
     }
 }
